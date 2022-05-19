@@ -13,21 +13,22 @@
 
 <body>
   <main>
-    <h3>Result Of Set Cookie is Below:</h3>
-    <div id="result">
+    <h3>Where is this?</h3>
+    <div id="in-teams">
       In Teams App: No
     </div>
-    <h3>Cookie received from Server</h3>
+    <h3>Cookie received from Server: </h3>
     <div id="cookie-response">
-      There is no cookie response
+      There is no cookie
     </div>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
   <script>
+
     microsoftTeams.initialize()
 
-    const result = document.getElementById("result")
+    const inTeams = document.getElementById("in-teams")
     const cookieRespone = document.getElementById("cookie-response")
 
     const sendCookie = async () => {
@@ -38,8 +39,8 @@
 
       if (res.ok) {
         const result = await res.json();
-        responeServer.innerHTML = JSON.stringify(result)
-        result.innerHTML = "In Teams App: Yes"
+        inTeams.innerHTML = "In Teams App: Yes"
+        cookieRespone.innerHTML = JSON.stringify(result);
       }
     }
 
@@ -47,14 +48,14 @@
       // Get Context
       microsoftTeams.getContext((context) => {
         document.cookie = "in_teams=true;SameSite=None;Secure"
-        resultSetCookie.innerHTML = "inTeams=true";
+        inTeams.innerHTML = "inTeams=true";
 
         sendCookie();
       })
     }
 
-    // Set Cookie
     setCookie();
+
   </script>
 </body>
 
