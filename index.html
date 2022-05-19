@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <!-- Microsoft Teams JavaScript API (via CDN) -->
+  <script src="https://statics.teams.microsoft.com/sdk/v1.5.2/js/MicrosoftTeams.min.js"
+    crossorigin="anonymous"></script>
+  <title>Send Cookie From Teams App</title>
+</head>
+
+<body>
+  <main>
+    <h3>Result Of Set Cookie is Below:</h3>
+    <div id="result">
+      In Teams App: No
+    </div>
+    <h3>Cookie received from Server</h3>
+    <div id="cookie-response">
+      There is no cookie response
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
+  <script>
+    microsoftTeams.initialize()
+
+    const result = document.getElementById("result")
+    const cookieRespone = document.getElementById("cookie-response")
+
+    const sendCookie = async () => {
+      const res = await fetch('/api/teams', {
+        method: 'GET',
+        credentials: "include"
+      })
+
+      if (res.ok) {
+        const result = await res.json();
+        responeServer.innerHTML = JSON.stringify(result)
+        result.innerHTML = "In Teams App: Yes"
+      }
+    }
+
+    const setCookie = () => {
+      // Get Context
+      microsoftTeams.getContext((context) => {
+        document.cookie = "in_teams=true;SameSite=None;Secure"
+        resultSetCookie.innerHTML = "inTeams=true";
+
+        sendCookie();
+      })
+    }
+
+    // Set Cookie
+    setCookie();
+  </script>
+</body>
+
+</html>
