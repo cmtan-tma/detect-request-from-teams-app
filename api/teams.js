@@ -7,7 +7,7 @@ router.get('/teams', (req, res) => {
 });
 
 router.post('/teams', (req, res) => {
-    const inTeamsFromSessionStorage = req.body.fromSessionStorage
+    const inTeamsFromSessionStorage = req.body
     const inTeamsFromCookie = req.cookies
 
     const data = {
