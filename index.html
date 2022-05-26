@@ -13,6 +13,9 @@
 
 <body>
   <main>
+    <div>
+      <button id="btn-send-request">Click Here To Send Data in_teams To Server</button>
+    </div>
     <h3>Where is this?</h3>
     <div id="in-teams">
       In Teams App: No
@@ -30,12 +33,14 @@
 
     microsoftTeams.initialize()
 
-    const inTeams = document.getElementById("in-teams")
-    const cookieResponse = document.getElementById("cookie-response")
+    const inTeams = document.getElementById('in-teams')
+    const cookieResponse = document.getElementById('cookie-response')
     const sessionStorageResponse = document.getElementById('session-storage-response')
+    const btnSendRequest = document.getElementById('btn-send-request')
+
     const IN_TEAMS_SESSION_STORAGE_KEY = 'in_teams'
 
-    const sendCookie = async () => {
+    const sendData = async () => {
       const bodyData = {
         in_teams: 'FALSE'
       }
@@ -66,7 +71,7 @@
       }
     }
 
-    const setCookie = () => {
+    const setData = () => {
       // Get Context
       microsoftTeams.getContext((context) => {
         inTeams.innerHTML = "In Teams App: Yes"
@@ -76,12 +81,12 @@
 
         // Set session storage
         sessionStorage.setItem(IN_TEAMS_SESSION_STORAGE_KEY, 'TRUE')
-
-        sendCookie()
       })
     }
 
-    setCookie();
+    btnSendRequest.addEventListener('click', sendData())
+
+    setData();
 
   </script>
 </body>
