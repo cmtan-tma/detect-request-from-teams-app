@@ -57,11 +57,11 @@
         const result = await res.json();
 
         if (result.fromCookie) {
-          cookieResponse.innerHTML = result.fromCookie
+          cookieResponse.innerHTML = JSON.stringify(result.fromCookie)
         }
 
         if (result.fromSessionStorage) {
-          sessionStorageResponse.innerHTML = result.fromSessionStorage
+          sessionStorageResponse.innerHTML = JSON.stringify(result.fromSessionStorage)
         }
       }
     }
@@ -75,9 +75,9 @@
         document.cookie = "in_teams=TRUE;SameSite=None;Secure"
 
         // Set session storage
-        sessionStorage.setItem(IN_TEAMS_SESSION_STORAGE_KEY, 'TRUE');
+        sessionStorage.setItem(IN_TEAMS_SESSION_STORAGE_KEY, 'TRUE')
 
-        sendCookie();
+        sendCookie()
       })
     }
 
