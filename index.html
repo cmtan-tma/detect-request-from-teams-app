@@ -47,7 +47,10 @@
       const res = await fetch('/api/teams', {
         method: 'POST',
         credentials: "include",
-        body: JSON.stringify(bodyData)
+        body: JSON.stringify(bodyData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })
 
       if (res.ok) {

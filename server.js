@@ -7,6 +7,7 @@ const teams = require('./api/teams')
 
 app.use(cookieParser());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname)));
 app.use('/api', teams);
 
