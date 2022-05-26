@@ -6,4 +6,15 @@ router.get('/teams', (req, res) => {
     res.send(req.cookies);
 });
 
+router.post('/teams', (req, res) => {
+    const inTeamsFromSessionStorage = req.body.fromSessionStorage
+    const inTeamsFromCookie = req.cookies
+
+    const data = {
+        fromCookie: inTeamsFromCookie,
+        fromSessionStorage: inTeamsFromSessionStorage
+    }
+    res.send(data)
+});
+
 module.exports = router;

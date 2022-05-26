@@ -21,6 +21,9 @@
     <div id="cookie-response">
       There is no cookie
     </div>
+    <div id="session-storage-response">
+      There is no session-storage
+    </div>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
@@ -29,26 +32,42 @@
     microsoftTeams.initialize()
 
     const inTeams = document.getElementById("in-teams")
-    const cookieRespone = document.getElementById("cookie-response")
+    const cookieResponse = document.getElementById("cookie-response")
+    const sessionStorageResponse = document.getElementById('session-storage-response')
+    const IN_TEAMS_SESSION_STORAGE_KEY = 'from_session_storage'
 
     const sendCookie = async () => {
+      const bodyData = {
+        fromSessionStorage: 'in_teams=FALSE'
+      }
+
+      if (sessionStorage.getItem(IN_TEAMS_SESSION_STORAGE_KEY)) {
+        bodyData.fromSessionStorage = sessionStorage.getItem(IN_TEAMS_SESSION_STORAGE_KEY) // 'in_teams=TRUE'
+      }
+
       const res = await fetch('/api/teams', {
-        method: 'GET',
-        credentials: "include"
+        method: 'POST',
+        credentials: "include",
+        body: JSON.stringify(bodyData)
       })
 
       if (res.ok) {
         const result = await res.json();
-        inTeams.innerHTML = "In Teams App: Yes"
-        cookieRespone.innerHTML = JSON.stringify(result);
+
+        cookieResponse.innerHTML = JSON.stringify(result);
       }
     }
 
     const setCookie = () => {
       // Get Context
       microsoftTeams.getContext((context) => {
-        document.cookie = "in_teams=true;SameSite=None;Secure"
-        inTeams.innerHTML = "inTeams=true";
+        inTeams.innerHTML = "In Teams App: Yes"
+
+        // Set cookie
+        document.cookie = "in_teams=TRUE;SameSite=None;Secure"
+
+        // Set session storage
+        sessionStorage.setItem(IN_TEAMS_SESSION_STORAGE_KEY, 'in_teams=TRUE');
 
         sendCookie();
       })
