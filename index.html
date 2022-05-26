@@ -14,7 +14,7 @@
 <body>
   <main>
     <div>
-      <button id="btn-send-request">Click Here To Send Data in_teams To Server</button>
+      <button id="btn-send-request">Click Here To Send A Request</button>
     </div>
     <h3>Where is this?</h3>
     <div id="in-teams">
@@ -22,11 +22,11 @@
     </div>
     <h3>Cookie received from Server: </h3>
     <div id="cookie-response">
-      There is no cookie
+      There is nothing here. Please click button to send a request
     </div>
     <h3>Session Storage received from Server: </h3>
     <div id="session-storage-response">
-      There is no session-storage
+      There is nothing here. Please click button to send a request
     </div>
   </main>
   <script>
@@ -36,10 +36,10 @@
     const inTeams = document.getElementById('in-teams')
     const cookieResponse = document.getElementById('cookie-response')
     const sessionStorageResponse = document.getElementById('session-storage-response')
-    const btnSendRequest = document.getElementById('btn-send-request')
 
     const IN_TEAMS_SESSION_STORAGE_KEY = 'in_teams'
 
+    // Send Data
     const sendData = async () => {
       const bodyData = {
         in_teams: 'FALSE'
@@ -84,7 +84,7 @@
       })
     }
 
-    btnSendRequest.addEventListener('click', sendData())
+    document.getElementById('btn-send-request').addEventListener('click', sendData)
 
     setData();
 
