@@ -37,11 +37,11 @@
 
     const sendCookie = async () => {
       const bodyData = {
-        fromSessionStorage: 'in_teams=FALSE'
+        in_teams: 'FALSE'
       }
 
       if (sessionStorage.getItem(IN_TEAMS_SESSION_STORAGE_KEY)) {
-        bodyData.fromSessionStorage = sessionStorage.getItem(IN_TEAMS_SESSION_STORAGE_KEY) // 'TRUE'
+        bodyData.in_teams = sessionStorage.getItem(IN_TEAMS_SESSION_STORAGE_KEY) // 'TRUE'
       }
 
       const res = await fetch('/api/teams', {
