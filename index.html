@@ -25,8 +25,6 @@
       There is no session-storage
     </div>
   </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
   <script>
 
     microsoftTeams.initialize()
@@ -34,7 +32,7 @@
     const inTeams = document.getElementById("in-teams")
     const cookieResponse = document.getElementById("cookie-response")
     const sessionStorageResponse = document.getElementById('session-storage-response')
-    const IN_TEAMS_SESSION_STORAGE_KEY = 'from_session_storage'
+    const IN_TEAMS_SESSION_STORAGE_KEY = 'in_teams'
 
     const sendCookie = async () => {
       const bodyData = {
@@ -42,7 +40,7 @@
       }
 
       if (sessionStorage.getItem(IN_TEAMS_SESSION_STORAGE_KEY)) {
-        bodyData.fromSessionStorage = sessionStorage.getItem(IN_TEAMS_SESSION_STORAGE_KEY) // 'in_teams=TRUE'
+        bodyData.fromSessionStorage = sessionStorage.getItem(IN_TEAMS_SESSION_STORAGE_KEY) // 'TRUE'
       }
 
       const res = await fetch('/api/teams', {
@@ -54,7 +52,13 @@
       if (res.ok) {
         const result = await res.json();
 
-        cookieResponse.innerHTML = JSON.stringify(result);
+        if (result.fromCookie) {
+          cookieResponse.innerHTML = result.fromCookie
+        }
+
+        if (result.fromSessionStorage) {
+          sessionStorageResponse.innerHTML = result.fromSessionStorage
+        }
       }
     }
 
@@ -67,7 +71,7 @@
         document.cookie = "in_teams=TRUE;SameSite=None;Secure"
 
         // Set session storage
-        sessionStorage.setItem(IN_TEAMS_SESSION_STORAGE_KEY, 'in_teams=TRUE');
+        sessionStorage.setItem(IN_TEAMS_SESSION_STORAGE_KEY, 'TRUE');
 
         sendCookie();
       })
