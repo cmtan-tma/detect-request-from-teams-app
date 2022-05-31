@@ -98,10 +98,12 @@
         sessionStorage.setItem(IN_TEAMS_SESSION_STORAGE_KEY, 'TRUE')
 
         // Channel id
-        channelId.innerText = context.channelId
-        entityId.innerText = context.entityId
+        // channelId.innerText = context.channelId
+        // entityId.innerText = context.entityId
+        console.log(context)
+
       }).catch((err) => {
-        teamsInfo.innerHTML = error.message()
+        teamsInfo.innerHTML = err.message()
       })
     }
 
