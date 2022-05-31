@@ -50,7 +50,7 @@
     const cookieResponse = document.getElementById('cookie-response')
     const sessionStorageResponse = document.getElementById('session-storage-response')
     const channelId = document.getElementById('channel-id')
-    const entityId = document.getElementById('eneity-id')
+    const entityId = document.getElementById('entity-id')
     const teamsInfo = document.getElementById('teams-info')
 
     const IN_TEAMS_SESSION_STORAGE_KEY = 'in_teams'
@@ -103,7 +103,7 @@
         console.log(context)
 
       }).catch((err) => {
-        teamsInfo.innerHTML = err.message()
+        teamsInfo.innerHTML = err.message
       })
     }
 
