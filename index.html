@@ -39,7 +39,7 @@
     <h3>Teams App Infomation</h3>
     <div id="teams-info">
       <p>ChannelId: <span id="channel-id"></span></p>
-      <p>EntityId: <span id="entity-id"></span></p>
+      <p>EntityId (pageId): <span id="entity-id"></span></p>
     </div>
   </main>
   <script>
@@ -98,8 +98,8 @@
         sessionStorage.setItem(IN_TEAMS_SESSION_STORAGE_KEY, 'TRUE')
 
         // Channel id
-        // channelId.innerText = context.channelId
-        // entityId.innerText = context.entityId
+        channelId.innerText = context.channel.id
+        entityId.innerText = context.page.id
         console.log(context)
 
       }).catch((err) => {
