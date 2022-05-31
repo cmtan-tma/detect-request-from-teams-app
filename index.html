@@ -6,8 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <!-- Microsoft Teams JavaScript API (via CDN) -->
-  <script src="https://statics.teams.microsoft.com/sdk/v1.5.2/js/MicrosoftTeams.min.js"
-    crossorigin="anonymous"></script>
+  <script src="MicrosoftTeams.min.js"></script>
   <link rel="stylesheet" href="style.css">
   <title>Detect Requests From Teams App</title>
 </head>
@@ -36,14 +35,23 @@
     <div id="session-storage-response">
       There is nothing here. Please click button to send a request
     </div>
+    <br>
+    <h3>Teams App Infomation</h3>
+    <div id="teams-info">
+      <p>ChannelId: <span id="channel-id"></span></p>
+      <p>EntityId: <span id="entity-id"></span></p>
+    </div>
   </main>
   <script>
 
-    microsoftTeams.initialize()
+    microsoftTeams.app.initialize()
 
     const inTeams = document.getElementById('in-teams')
     const cookieResponse = document.getElementById('cookie-response')
     const sessionStorageResponse = document.getElementById('session-storage-response')
+    const channelId = document.getElementById('channel-id')
+    const entityId = document.getElementById('eneity-id')
+    const teamsInfo = document.getElementById('teams-info')
 
     const IN_TEAMS_SESSION_STORAGE_KEY = 'in_teams'
 
@@ -80,8 +88,7 @@
     }
 
     const setData = () => {
-      // Get Context
-      microsoftTeams.getContext((context) => {
+      microsoftTeams.app.getContext().then((context) => {
         inTeams.innerHTML = "In Teams App: Yes"
 
         // Set cookie
@@ -89,6 +96,12 @@
 
         // Set session storage
         sessionStorage.setItem(IN_TEAMS_SESSION_STORAGE_KEY, 'TRUE')
+
+        // Channel id
+        channelId.innerText = context.channelId
+        entityId.innerText = context.entityId
+      }).catch((err) => {
+        teamsInfo.innerHTML = error.message()
       })
     }
 
