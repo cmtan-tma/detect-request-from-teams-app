@@ -110,8 +110,11 @@
         entityId.innerText = context.page.id
 
         // Set SubPageId (One-time URL in this case)
-        subPageId.innerText = context.page.subPageId;
-        btnRedirectToLink.removeAttribute("hidden")
+        if (context.page.subPageId !== "") {
+          btnRedirectToLink.removeAttribute("hidden")
+          subPageId.innerText = context.page.subPageId;
+        }
+
 
       }).catch((err) => { teamsInfo.innerHTML = err.message })
     }
