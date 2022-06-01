@@ -13,33 +13,31 @@
 
 <body>
   <main>
+    <h3>From Deep Link <button id="btn-redirect-to-link" hidden>Redirect to URL</button></h3>
     <div>
-      <button id="btn-send-request">Click Here To Send A Request</button>
+      <p>SubPageId (URL): <span id="sub-page-id"></span></p>
+
     </div>
-    <br>
-    <div style="color:red;">
-      <em>Note: If this is not in the Team context, but in_teams has value TRUE, this case is wrong.</em>
-    </div>
-    <br>
     <h3>Where is this?</h3>
     <div id="in-teams">
       In Teams App: No
     </div>
-    <br>
+    <div>
+      <button id="btn-send-request">Click Here To Send A Request</button>
+    </div>
+    <div style="color:red;">
+      <em>Note: If this is not in the Team context, but in_teams has value TRUE, this case is wrong.</em>
+    </div>
     <h3>Cookie received from Server: </h3>
     <div id="cookie-response">
       There is nothing here. Please click button to send a request
     </div>
-    <br>
     <h3>Session Storage received from Server: </h3>
     <div id="session-storage-response">
       There is nothing here. Please click button to send a request
     </div>
-    <br>
-    <div style="min-height: 900px;"></div>
     <h3>Teams App Infomation</h3>
     <div id="teams-info">
-      <button id="btn-get-teams-info">Get Deep Link To Teams Info Section</button>
       <p>ChannelId: <span id="channel-id"></span></p>
       <p>EntityId (pageId): <span id="entity-id"></span></p>
     </div>
@@ -49,22 +47,6 @@
     const app = microsoftTeams.app
     const pages = microsoftTeams.pages
 
-    app.initialize().then(() => {
-      const contextPromise = app.getContext();
-      contextPromise.
-        then((context) => {
-          console.log(context)
-
-          const urlRedirect = context.page.subPageId;
-
-          if (urlRedirect !== "") {
-            console.log("There is a urlRedirect")
-            window.location.assign(urlRedirect);
-          }
-        }).
-        catch((error) => {/*Unsuccessful operation*/ });
-    })
-
     const inTeams = document.getElementById('in-teams')
     const cookieResponse = document.getElementById('cookie-response')
     const sessionStorageResponse = document.getElementById('session-storage-response')
@@ -72,12 +54,12 @@
     const entityId = document.getElementById('entity-id')
     const teamsInfo = document.getElementById('teams-info')
     const btnGetDeepLink = document.getElementById('btn-get-teams-info')
+    const subPageId = document.getElementById('sub-page-id')
+    const btnRedirectToLink = document.getElementById('btn-redirect-to-link')
+
     const IN_TEAMS_SESSION_STORAGE_KEY = 'in_teams'
 
-    // To call shareDeepLink
-    btnGetDeepLink.addEventListener('click', (e) => {
-      pages.shareDeepLink({ subPageId: 'teams-info', subPageLabel: 'This is Teams Info', subPageWebUrl: 'https://detect-request-teams-app.heroku.com/api/teams' })
-    })
+    app.initialize()
 
     // Send Data
     const sendData = async () => {
@@ -113,6 +95,8 @@
 
     const setData = () => {
       app.getContext().then((context) => {
+        console.log(context)
+
         inTeams.innerHTML = "In Teams App: Yes"
 
         // Set cookie
@@ -121,21 +105,27 @@
         // Set session storage
         sessionStorage.setItem(IN_TEAMS_SESSION_STORAGE_KEY, 'TRUE')
 
-        // Channel id
+        // Set Channel id
         channelId.innerText = context.channel.id
         entityId.innerText = context.page.id
-        console.log(context)
 
-      }).catch((err) => {
-        teamsInfo.innerHTML = err.message
-      })
+        // Set SubPageId (One-time URL in this case)
+        subPageId.innerText = context.page.subPageId;
+        btnRedirectToLink.removeAttribute("hidden")
+
+      }).catch((err) => { teamsInfo.innerHTML = err.message })
     }
 
     document.getElementById('btn-send-request').addEventListener('click', sendData)
 
+    // To redirect to One-time URL
+    btnRedirectToLink.addEventListener('click', (e) => {
+      const oneTimeUrl = subPageId.innerHTML;
+      if (oneTimeUrl !== "") {
+        window.location.assign(oneTimeUrl)
+      }
+    })
     setData();
-
-
 
   </script>
 </body>
