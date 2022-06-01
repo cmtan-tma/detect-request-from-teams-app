@@ -49,7 +49,21 @@
     const app = microsoftTeams.app
     const pages = microsoftTeams.pages
 
-    app.initialize()
+    app.initialize().then(() => {
+      const contextPromise = app.getContext();
+      contextPromise.
+        then((context) => {
+          console.log(context)
+
+          const urlRedirect = context.page.subPageId;
+
+          if (urlRedirect !== "") {
+            console.log("There is a urlRedirect")
+            window.location.assign(urlRedirect);
+          }
+        }).
+        catch((error) => {/*Unsuccessful operation*/ });
+    })
 
     const inTeams = document.getElementById('in-teams')
     const cookieResponse = document.getElementById('cookie-response')
@@ -120,6 +134,8 @@
     document.getElementById('btn-send-request').addEventListener('click', sendData)
 
     setData();
+
+
 
   </script>
 </body>
