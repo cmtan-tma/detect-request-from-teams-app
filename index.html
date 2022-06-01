@@ -38,13 +38,17 @@
     <br>
     <h3>Teams App Infomation</h3>
     <div id="teams-info">
+      <button id="btn-get-teams-info">Get Deep Link To Teams Info Section</button>
       <p>ChannelId: <span id="channel-id"></span></p>
       <p>EntityId (pageId): <span id="entity-id"></span></p>
     </div>
   </main>
   <script>
 
-    microsoftTeams.app.initialize()
+    const app = microsoftTeams.app
+    const pages = microsoftTeams.pages
+
+    app.initialize()
 
     const inTeams = document.getElementById('in-teams')
     const cookieResponse = document.getElementById('cookie-response')
@@ -52,8 +56,13 @@
     const channelId = document.getElementById('channel-id')
     const entityId = document.getElementById('entity-id')
     const teamsInfo = document.getElementById('teams-info')
-
+    const btnGetDeepLink = document.getElementById('btn-get-teams-info')
     const IN_TEAMS_SESSION_STORAGE_KEY = 'in_teams'
+
+    // To call shareDeepLink
+    btnGetDeepLink.addEventListener('click', (e) => {
+      pages.shareDeepLink({ subPageId: 'teams-info', subPageLabel: 'This is Teams Info', subPageWebUrl: 'https://detect-request-teams-app.heroku.com' })
+    })
 
     // Send Data
     const sendData = async () => {
@@ -88,7 +97,7 @@
     }
 
     const setData = () => {
-      microsoftTeams.app.getContext().then((context) => {
+      app.getContext().then((context) => {
         inTeams.innerHTML = "In Teams App: Yes"
 
         // Set cookie
